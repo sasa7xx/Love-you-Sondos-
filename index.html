@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For You ♥️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* خلفية الصفحة عند فتح القفل */
+        body.unlocked {
+            background: url('IMG-20260925-WA0023.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        body.unlocked::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.65);
+            z-index: -1;
+        }
+
+        /* شاشة كلمة السر */
+        #login-screen {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            width: 90%;
+            max-width: 400px;
+            z-index: 10;
+        }
+
+        #login-screen h2 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #ff6584;
+        }
+
+        #login-screen input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            font-size: 16px;
+            text-align: center;
+            outline: none;
+        }
+
+        #login-screen input::placeholder {
+            color: #ddd;
+        }
+
+        #login-screen button {
+            background: #ff6584;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 100%;
+        }
+
+        #login-screen button:hover {
+            background: #ff4769;
+            transform: scale(1.02);
+        }
+
+        /* المحتوى الرئيسي */
+        #main-content {
+            display: none;
+            width: 90%;
+            max-width: 900px;
+            margin: 40px auto;
+            z-index: 5;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* العداد */
+        .timer-box {
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid rgba(255, 101, 132, 0.4);
+            font-size: 18px;
+            font-weight: bold;
+            color: #ff6584;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+        }
+
+        /* المربعات العادية */
+        .box {
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+            line-height: 1.8;
+            font-size: 16px;
+            color: #f1f1f1;
+            white-space: pre-line;
+        }
+
+        /* مربعات جنب بعض */
+        .row {
+            display: flex;
+            gap: 20px;
+        }
+
+        .row .box {
+            flex: 1;
+        }
+
+        /* عنوان فوق المربع */
+        .section-title {
+            font-size: 18px;
+            color: #ff6584;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        /* الصور داخل المربعات */
+        .photo-box {
+            text-align: center;
+        }
+
+        .photo-box img {
+            width: 100%;
+            max-height: 350px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-top: 10px;
+            border: 2px solid rgba(255, 101, 132, 0.5);
+        }
+
+        @media (max-width: 768px) {
+            .row {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- شاشة كلمة السر -->
+    <div id="login-screen">
+        <h2>أدخل كلمة السر يا مصطفى</h2>
+        <input type="password" id="password-input" placeholder="اكتب كلمة السر هنا...">
+        <button onclick="checkPassword()">( open now )</button>
+    </div>
+
+    <!-- مشغل الأغنية بدون إعلانات -->
+    <audio id="bg-music" loop>
+        <!-- ضع رابط الأغنية المباشر أو اسم ملف الصوت هنا -->
+        <source src="" type="audio/mp3">
+    </audio>
+
+    <!-- المحتوى الرئيسي -->
+    <div id="main-content">
+        <div class="container">
+            
+            <!-- عداد الوقت من يوم 23 -->
+            <div class="timer-box" id="timer">
+                جاري حساب الوقت...
+            </div>
+
+            <!-- المربع الأول: بيت الشعر -->
+            <div class="box">
+                يا أجمل صدفة نورت عمري وكتبت معاكي البداية،
+                لقيت في عيونكي الوطن والراحتين والحكاية،
+                ضحكتك بتنسيني التعب وكأن الدنيا بقت في إيدي،
+                من أول يوم شوفتك فيه وبقيتي لقلبي هوائي ودواي،
+                وعاهدت نفسي أكون ضهرك وسندك في كُل حالاتك،
+                دي إنتي الدُعوة اللي استجابت وبقت أجمل جناتي،
+                بحبك بطريقة تعجز قدامها كل الكلمات والمعاني
+            </div>
+
+            <!-- مربعات جنب بعض للنصوص الأولى -->
+            <div class="row">
+                <div class="box">
+                    إنت مش بس حبيبتي… إنتِ الحتة الهادية اللي الدنيا كلها بتاخدني منها وأرجع لها لما بسمع صوتك بحس إن قلبي ارتاح، ولما تضحكي كأن الدنيا كلها نورت بحبك بطريقة تخلي أي يوم عادي يبقى عيد… وبوعدك أفضل كل يوم أحبك أكتر من اللي قبله 🫂♥️S♥️💍
+                </div>
+                <div class="box">
+                    وعد مني هفضل أحبك في كل حالاتك، في قربك وفي بعدك، في فرحك وفي تعبك. هفضل أختارك كل يوم من جديد كأنك أول مرة تدخل قلبي. أنت نصي الحلو اللي كان نفسي فيه، والدعوة اللي اتحققت. ربنا يجمعنا على خير ويكتبنا لبعض طول العمر🌚🫂♥️S♥️💍
+
+                    بعشقك♥️S♥️
+
+                    Sasa ♥️I LOVE YOU ♥️Sondos
+                    بحبك♥️
+                </div>
+            </div>
+
+            <!-- مربع لوحده -->
+            <div class="box">
+                وعد ان مافيش حاجه هتفرقنه♥️
+            </div>
+
+            <!-- مربع مع عنوان فوقه -->
+            <div>
+                <div class="section-title">( اول مره قلتي فيها بحبك ليا انا )</div>
+                <div class="box">
+                    انتي مش مجرد ولد في حياتي دا انت حياتي كلها 🥹 و انا من أول يوم شوفتك فيه فيه و انا حاسه اني لقيت الجزء الي ناقص مني الي طول عمري بدور عليه🥹انت دخلت حياتي غيرت كل حاجة جوايا خليتيني احب التفاصيل الصغيرة و اضحك من قلبي لمجرد ما افتكر انك جنبي 🥹كل لحظة معاك بالنسبالي عمر كامل مليان سعادة🥹انا عارفه ان الدنيا مش علطول سهلة و بيبقى فيه مشاكل بس بنتعاتب علطول و الزعل مش بيبات بينا عشان مفيش حاجة في الدنيا كلها تستاهل اني أخسرك يا نور عيني 🥹 لإن انت اغلى حاجة في حياتي و اجمل من اي كلام ممكن يتقال والله 🥹 انا بحبك بطريقة يمكن لو قعدت عمر فوق عمري مش هعرف اوصفها🥹بس كل الي اقدر اقولهولك انك سبب راحتي و سبب ابتسامتي و انك اغلى حلم حققتو في حياتي 🥹 انتي عارف أن وجودك في حياتي هو أجمل حاجة حصلتلي 🥹 من يوم مع عرفتك و حياتي بقت هادية و بقول اكيد ربنا بعتو ليا عشان يطمنى 🥹 انت الراحة الي بدور عليها طول عمري 🥹 و حنيتك عليا بتنسيني التعب و كل ما تبعد بحس اني ناقصني روحي و ببقى مش طايقه نفسي و كل ما بتضحك بحس ان الدنيا ضحكتيلي 🥹 بحبك في كل حال في فرحك و زعلك و صمتك و كلامك 🥹 انت مش مجرد حبيبى انت انا و انا انت
+                </div>
+            </div>
+
+            <!-- مربع كلامك حلو قوي -->
+            <div class="box">
+                كلامك حلو اوي والله 
+                انا فعلا من اول يوم بعتلك في وي في حاجه شدتني ليكي 
+                حسيت إن انتى ممكن هي الي تكمل معايا وي انا ليا الشرف اني اكمل معاكي وي اكون جمبك وي ضهرك وي سندك في الدنيا انتى بقيتي تعوضيني عن كل الي فات 
+                وي اسف اني خليتك تعيطي الصبح لما كنت بحكيلك قصيتي انا اسف والله انا كنت عارف انك هتعيطي بس انا اسف والله ما كنتش اقصد 
+                انا مش بزعل منك وانتي عارفه اني مش بعرف ازعل من حد حته لو كان مين بس انتي مش حد انتي بقيتي
+                روحي🥹
+                عشقي🥺
+                حياتي 😇
+                قلبي🤍
+                عقلي 💜
+                تفكيري☺️
+                لدرجت اني مش بطلع من الشات عندك اصلا 
+                نفسي تفضلي جمبي وي يارب يكون نصيبك معايا او نصيبي معاكي 
+                انا مش بس حبتيك انا قربت ادمنك 
+                اي نعم بقالنا يوم بي نتكلم وي ده تاني يوم بس انا حاسس بي تغير والله بقالي فتره مش بكلم حد لاني ماليش في سكة الارتباط 
+                بس اهو بحاول ادور علي النص التاني بتاعي 
+                وي يارب تكوني ليا 
+                بعشقك من اول ما سمعت صوتك 
+                بعشقك من اول ما شوفت صورتك
+                بعشق حنيتك 
+                بعشقك كلامك الحلو 
+                بعشقك كل حاجه فيكي 
+                بعشقك طريقت كلامك
+                بعشقك انتي شخصيا
+            </div>
+
+            <!-- صورتين جنب بعض في مربعين -->
+            <div class="row">
+                <div class="box photo-box">
+                    <div> صورتك </div>
+                    <img src="45cdc64583054407187168f3a8f8aa01_2.jpg" alt="صورة مصطفى">
+                </div>
+                <div class="box photo-box">
+                    <div> صورتها </div>
+                    <img src="IMG-20260925-WA0123_2.jpg" alt="صورتها">
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // ضع هنا كلمة السر الخاصة بك
+        const correctPassword = "123"; // يمكنك تغييرها لأي كلمة سر تريدها
+
+        function checkPassword() {
+            const inputVal = document.getElementById('password-input').value;
+            if (inputVal === correctPassword) {
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('main-content').style.display = 'block';
+                document.body.classList.add('unlocked');
+                
+                // تشغيل الأغنية بدون إعلانات
+                const music = document.getElementById('bg-music');
+                music.play().catch(e => console.log("Audio play blocked by browser"));
+            } else {
+                alert('كلمة السر غير صحيحة، حاول مرة أخرى!');
+            }
+        }
+
+        // حساب الوقت المنقضي من يوم 23 سبتمبر 2026
+        function updateTimer() {
+            const startDate = new Date('2026-09-23T00:00:00');
+            const now = new Date();
+            const diff = now - startDate;
+
+            if (diff < 0) {
+                document.getElementById('timer').innerText = "التاريخ لم يبدأ بعد!";
+                return;
+            }
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            document.getElementById('timer').innerText = `منذ أن بدأنا (23 سبتمبر): ${days} يوم و ${hours} ساعة و ${minutes} دقيقة و ${seconds} ثانية ❤️`;
+        }
+
+        setInterval(updateTimer, 1000);
+        updateTimer();
+    </script>
+</body>
+</html>
